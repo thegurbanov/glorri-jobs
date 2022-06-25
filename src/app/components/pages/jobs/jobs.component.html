@@ -1,0 +1,343 @@
+<section class="pxp-page-header-simple">
+    <div class="pxp-container">
+        <!-- <h1>Vakansiyalar</h1> -->
+        <!-- <div class="pxp-hero-subtitle ">
+        
+        
+        </div> -->
+
+
+        <!-- for filters -->
+        <div class="pxp-hero-form pxp-hero-form-round pxp-large pxp-has-border mt-2 ">
+            <form class="row gx-3 align-items-center">
+                <div class="col-12 col-lg">
+                    <div class="input-group mb-3 mb-lg-0">
+                        <span class="input-group-text"><span class="fa fa-search"></span></span>
+                        <input [(ngModel)]="searchText" name="searchText" type="text" class="form-control"
+                            placeholder="{{ 'form-element.searchkey' | translate}}">
+                    </div>
+                </div>
+                <div class="col-12 col-lg pxp-has-left-border">
+                    <div class="input-group mb-3 mb-lg-0">
+                        <span class="input-group-text"><span class="fa fa-globe"></span></span>
+                        <input name="location" [(ngModel)]="location" type="text" class="form-control"
+                            placeholder="{{'header.joblocation'  | translate}}">
+                    </div>
+                </div>
+                <div class="col-12 col-lg pxp-has-left-border">
+                    <div class="input-group mb-3 mb-lg-0 flex-nowrap">
+                        <span class="input-group-text"><span class="fa fa-folder-o"></span></span>
+                        <ng-select [(ngModel)]="jobFunction" name="jobFunction"
+                            class="w-100 border-0 ng-select d-inline">
+                            <ng-option value="">
+                                {{'form-element.allCateg'| translate}}
+                            </ng-option>
+                            <ng-option *ngFor="let function of jobFunctions" [value]="function?.value">
+                                {{function.code | translate}}
+                            </ng-option>
+                        </ng-select>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-auto">
+                    <button (click)="filter()">{{'header.button.search' | translate}}</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="pxp-container">
+        <div class="row">
+            <div class="col-lg-5 col-xl-4 col-xxl-6">
+                <div class="row">
+                    <div class="col-xxl-5">
+                        <div class="pxp-jobs-list-side-filter pxp-with-details ">
+                            <div class="pxp-list-side-filter-header d-flex d-xxl-none">
+                                <div class="pxp-list-side-filter-header-label">Filter Jobs</div>
+                                <a role="button"><span class="fa fa-sliders"></span></a>
+                            </div>
+
+                            <div *ngIf="filtered" class="my-3">
+                                <button (click)=" resetFilters()" class="btn glorri-button w-100">{{'button.clearsel2' |
+                                    translate}}</button>
+                            </div>
+                            <div class="mt-4 mt-xxl-0 d-xxl-block pxp-list-side-filter-panel">
+                                <h3>{{'form-element.jobtype' | translate}}</h3>
+                                <div class="list-group mt-2 ">
+                                    <ng-container *ngFor="let jobType of jobTypes ">
+                                        <div class="position-relative list-item">
+                                            <label [class.pxp-checked]="jobType.checked"
+                                                class="list-group-item filter-label d-flex justify-content-between align-items-center mt-2">
+                                                <span class="d-flex">
+                                                    <input class="form-check-input me-2"
+                                                        (change)="jobType.checked = !jobType.checked; count(jobType)"
+                                                        type="checkbox" [value]="jobType.type"
+                                                        [checked]="jobType.checked ? 'checked':'' ">
+                                                    {{jobType.translation}}
+                                                </span>
+                                                <span class="badge rounded-pill">{{jobType.count}}</span>
+                                            </label>
+                                            <button *ngIf="showButtonID == jobType._id" (click)="filter()"
+                                                class="btn text-light filter-button glorri-button"> {{'button.applyyy' |
+                                                translate}}</button>
+
+                                        </div>
+                                    </ng-container>
+                                </div>
+
+                                <h3 class="mt-3 mt-lg-4">{{'header.careerLevel' | translate}}</h3>
+                                <div class="list-group mt-2 ">
+                                    <ng-container *ngFor="let level of careerLevels">
+                                        <ng-container *ngIf="level.translation">
+                                            <div class="position-relative">
+                                                <label (change)="level.checked = !level.checked; count(level)"
+                                                    class="list-group-item d-flex justify-content-between align-items-center mt-2">
+                                                    <span class="d-flex">
+                                                        <input class="form-check-input me-2" type="checkbox"
+                                                            value="{{level.value}}">
+                                                        {{level.translation}}
+                                                    </span>
+                                                    <span class="badge rounded-pill">{{level.count}}</span>
+                                                </label>
+                                                <button *ngIf="showButtonID == level._id" (click)="filter()"
+                                                    class="btn text-light filter-button glorri-button">
+                                                    {{'button.applyyy' |
+                                                    translate}}</button>
+                                            </div>
+                                        </ng-container>
+
+                                    </ng-container>
+                                </div>
+
+                                <h3 class="mt-3 mt-lg-4">{{'form-element.datePosted' | translate}}</h3>
+                                <div class="list-group mt-2">
+                                    <ng-container *ngFor="let jobDate of jobDates; let i = index">
+                                        <label
+                                            class="list-group-item d-flex justify-content-between align-items-center pxp-checked mt-2">
+                                            <span class="d-flex">
+                                                <input class="form-check-input me-2" type="radio" name="jobDate"
+                                                    (change)="setJobDate(jobDate)" [checked]="jobDate.checked"
+                                                    value="{{jobDate.value}}">
+                                                {{jobDate.translation | translate }}
+                                            </span>
+                                            <span class="badge rounded-pill">{{jobDate.count}}</span>
+                                        </label>
+                                    </ng-container>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xxl-7">
+
+
+                        <ng-container *ngIf="jobs && jobs.length>0;else noneJobs">
+                            <div class="pxp-jobs-list-single-column nav mt-4 mt-xxl-0 scrolling align-content-start"
+                                (scroll)="onScroll($event)" role="tablist">
+                                <ng-container *ngFor="let job of jobs">
+                                    <a (click)="getJobDescription(job.companyProfile?.companyId,job?.slug)"
+                                        [class.active]="activeJobId==job?._id" class="pxp-jobs-card-4 pxp-has-border"
+                                        id="job-{{job._id}}">
+                                        <div class="pxp-jobs-card-4-company-top">
+                                            <div *ngIf="job?.companyProfile?.logo?.file"
+                                                title="{{job.companyProfile?.name}}"
+                                                class="pxp-jobs-card-4-company-logo "
+                                                style="background-image: url({{job?.companyProfile?.logo?.file}});">
+                                            </div>
+                                            <div *ngIf="!job?.companyProfile?.logo?.file"
+                                                class="pxp-jobs-card-4-company-logo withBorder">
+                                                <span class="icon _icon-building"></span>
+                                            </div>
+                                            <div class="pxp-jobs-card-4-info">
+                                                <div class="pxp-jobs-card-4-title font-negreta">{{job.title}}
+                                                </div>
+                                                <div class="pxp-jobs-card-4-details d-block">
+                                                    <div class="pxp-jobs-card-4-location ">
+                                                        <i class="fa fa-globe" aria-hidden="true"
+                                                            [class.text-light]="activeJobId==job?._id"></i>
+                                                        {{job.location}}
+                                                    </div>
+                                                    <div class="pxp-jobs-card-4-type ps-0">
+                                                        <i class="fa fa-briefcase" aria-hidden="true"
+                                                            [class.text-light]="activeJobId==job?._id"></i>
+                                                        {{job.type}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="pxp-jobs-card-4-company-bottom">
+                                            <div class="pxp-jobs-card-4-category">
+                                                <span
+                                                    class="pxp-jobs-card-4-company font-negreta">{{job?.companyProfile?.name}}</span>
+                                            </div>
+                                            <div class="pxp-jobs-card-4-bottom-right">
+                                                <span class="pxp-jobs-card-4-date ">{{job?.postedDate |
+                                                    day | translate}}</span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </ng-container>
+                            </div>
+                        </ng-container>
+
+                        <ng-template #noneJobs>
+                            <div class="alert alert-info text-center">
+                                {{'texts.noresul' | translate}}
+                            </div>
+                        </ng-template>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-7 col-xl-8 col-xxl-6">
+                <div class="tab-content pxp-jobs-tab-content">
+                    <div class="tab-pane active" id="job-details-1" role="tabpanel" aria-labelledby="job-1">
+                        <div *ngIf="jobDescription?.companyProfile?.coverPicture?.file"
+                            class="pxp-jobs-tab-pane-cover pxp-cover"
+                            style="background-image: url({{jobDescription?.companyProfile?.coverPicture?.file}});">
+                        </div>
+                        <div *ngIf="jobDescription?.companyProfile?.coverPicture?.file && jobDescription?.companyProfile?.logo?.file"
+                            class="pxp-jobs-tab-pane-logo"
+                            style="background-image: url({{jobDescription?.companyProfile?.logo?.file}});"></div>
+
+
+                        <div class="pxp-jobs-tab-pane-content">
+                            <div class="row justify-content-between align-items-center mx-0">
+                                <div class="col-xl-8">
+                                    <div class="row">
+
+                                        <div *ngIf="!jobDescription?.companyProfile?.coverPicture?.file && jobDescription?.companyProfile?.logo?.file"
+                                            class="pxp-jobs-tab-pane-logo m-0  col-4"
+                                            style="width:65px;height:65px;background-image: url({{jobDescription?.companyProfile?.logo?.file}});">
+                                        </div>
+                                        <h3 class="font-negreta col-8 pt-3" style="font-size:20px">
+                                            {{jobDescription?.title}}
+                                            <div class="pxp-jobs-tab-pane-company-location">
+                                                <a href="single-company-1.html"
+                                                    class="pxp-jobs-tab-pane-company">{{jobDescription?.companyProfile?.name}}</a>
+                                                <span class="divider">•</span>
+                                                <a href="jobs-list-1.html"
+                                                    class="pxp-jobs-tab-pane-location d-inline-block mt-1">{{jobDescription?.location}}</a>
+                                            </div>
+                                        </h3>
+                                    </div>
+
+                                </div>
+                                <div class="col-xl-4">
+                                    <div class="pxp-jobs-tab-pane-options mt-4 mt-xl-0">
+                                        <!-- <button class="btn pxp-jobs-tab-pane-save-btn"><span
+                                                class="fa fa-heart-o"></span></button> -->
+                                        <div class="dropdown ms-2">
+                                            <button class="btn pxp-jobs-tab-pane-share-btn dropdown-toggle"
+                                                type="button" id="socialShareBtn-1" data-bs-toggle="dropdown"
+                                                aria-expanded="false">
+                                                <span class="fa fa-share-alt"></span>
+                                            </button>
+                                            <ul class="dropdown-menu pxp-jobs-tab-pane-share-dropdown"
+                                                aria-labelledby="socialShareBtn-1">
+                                                <li><a class="dropdown-item" href="#"><span
+                                                            class="fa fa-facebook"></span>
+                                                        Facebook</a></li>
+                                                <li><a class="dropdown-item" href="#"><span
+                                                            class="fa fa-twitter"></span>
+                                                        Twitter</a></li>
+                                                <li><a class="dropdown-item" href="#"><span
+                                                            class="fa fa-pinterest"></span>
+                                                        Pinterest</a></li>
+                                                <li><a class="dropdown-item" href="#"><span
+                                                            class="fa fa-linkedin"></span>
+                                                        LinkedIn</a></li>
+                                            </ul>
+                                        </div>
+                                        <a target="_blank"
+                                            href="https://glorri.com/{{jobDescription?.companyId?.slug}}/{{jobDescription?.id}}/apply?source=GLORRI"
+                                            class="btn ms-2 pxp-jobs-tab-pane-apply-btn rounded-pill">{{'button.applyy'
+                                            | translate}}</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mt-4 justify-content-between align-items-center mx-0">
+                                <div class="col-6">
+                                    <a href="jobs-list-1.html" class="pxp-jobs-tab-pane-category">
+                                        <div class="pxp-jobs-tab-pane-category-icon"><span
+                                                class="fa fa-bullhorn"></span>
+                                        </div>
+                                        <div class="pxp-jobs-tab-pane-category-label">Marketing & Communication</div>
+                                    </a>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="pxp-jobs-tab-pane-date ">{{job?.postedDate | day |
+                                        translate}}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mt-4 mt-lg-5 align-items-center mx-0">
+                                <div class="col-6">
+                                    <div>
+                                        <div class="pxp-jobs-tab-pane-content-info-label ">Təcrübə</div>
+                                        <div class="pxp-jobs-tab-pane-content-info-data">Minimum 1 year</div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div>
+                                        <div class="pxp-jobs-tab-pane-content-info-label ">İş Səviyyəsi
+                                        </div>
+                                        <div class="pxp-jobs-tab-pane-content-info-data">{{job?.careerLevel}}</div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="mt-4">
+                                        <div class="pxp-jobs-tab-pane-content-info-label ">İşin növü</div>
+                                        <div class="pxp-jobs-tab-pane-content-info-data">{{job?.type}}</div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="mt-4">
+                                        <div class="pxp-jobs-tab-pane-content-info-label ">Əmək haqqı
+                                        </div>
+                                        <div class="pxp-jobs-tab-pane-content-info-data">$35k / year</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="pxp-jobs-tab-pane-content-details mt-4 mt-lg-5 mx-0">
+                                <h4>{{'header.description'| translate}}</h4>
+                                <p [innerHTML]="jobDescription?.description | doEscape | safe"></p>
+
+
+                                <ng-container *ngIf="jobDescription?.remarks && jobDescription?.remarks?.count>0">
+                                    <div class="mt-4">
+                                        <h4>{{'header.require'| translate}}</h4>
+                                        <div [innerHTML]="jobDescription?.remarks | doEscape | safe"></div>
+                                    </div>
+                                </ng-container>
+
+                                <ng-container *ngIf="jobDescription?.benefits && jobDescription?.benefits?.count>0">
+                                    <div class="mt-4">
+                                        <h4>{{'header.benefits3'| translate}}</h4>
+                                        <ul>
+                                            <ng-container *ngFor="let benefit of jobDescription.benefits">
+                                                <li>{{benefit.benefitTagId?.name}}</li>
+                                            </ng-container>
+                                        </ul>
+                                    </div>
+                                </ng-container>
+
+                                <div class="mt-3 text-end">
+                                    <a target="_blank"
+                                        href="https://glorri.com/{{jobDescription?.companyId?.slug}}/{{jobDescription?.id}}/apply?source=GLORRI"
+                                        class="btn rounded-pill pxp-section-cta">{{'button.applyy'
+                                        | translate}}</a>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn rounded-pill pxp-jobs-tab-pane-close-btn d-inline-block d-lg-none"><span
+                                class="fa fa-angle-left"></span> Back</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

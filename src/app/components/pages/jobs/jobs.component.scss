@@ -1,0 +1,44 @@
+.pxp-jobs-list-single-column{
+    height: 100vh;
+    min-height: 400px;
+    overflow: hidden;
+    overflow-y: auto;
+}
+
+.filter-button{
+    position: absolute;
+    top: 0;
+    right: -50%;
+}
+.pxp-jobs-card-4-details {
+    i{
+        position: relative;
+        color: #5D5D61;
+        top: 1px;
+
+    }
+    .pxp-jobs-card-4-location i{
+        font-size:15px
+    }
+}
+.pxp-jobs-card-4-company-logo {
+    position: relative;
+    &.withBorder{
+        border: 1px solid;
+    }
+    span.icon{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        font-size: 2em;
+    }
+}
+
+.pxp-jobs-card-4.pxp-has-border:not(.active){
+    .pxp-jobs-card-4-category{
+        border-radius: 9px;
+        padding: 10px;
+        background: aliceblue;
+    }
+}
