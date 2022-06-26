@@ -25,11 +25,12 @@ export class JobsComponent implements OnInit {
 
   activePage: number = 0;
   searchText: string = '';
-  jobFunctions: jobFunctionDto[]  = [];
+  jobFunctions: jobFunctionDto[] = [];
   jobFunction: string = '';
   location: string = '';
   activeJobId: string = '';
   jobDates = [{
+    _id: '1',
     name: 'Day',
     translation: 'filter-elements.today',
     value: 1,
@@ -37,6 +38,7 @@ export class JobsComponent implements OnInit {
     checked: false
   },
   {
+    _id: '2',
     name: 'ThreeDays',
     translation: 'filter-elements.lastthree',
     value: 2,
@@ -44,6 +46,7 @@ export class JobsComponent implements OnInit {
     checked: false
   },
   {
+    _id: '3',
     name: 'Week',
     translation: 'filter-elements.lastseven',
     value: 3,
@@ -51,6 +54,7 @@ export class JobsComponent implements OnInit {
     checked: false
   },
   {
+    _id: '4',
     name: 'TwoWeeks',
     translation: 'filter-elements.lastfifteen',
     value: 4,
@@ -58,6 +62,7 @@ export class JobsComponent implements OnInit {
     checked: false
   },
   {
+    _id: '5',
     name: 'Month',
     translation: 'filter-elements.lastthirty',
     value: 5,
@@ -79,13 +84,15 @@ export class JobsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllJobs()
-    .then(() => {
-      // this.getJobTypes();
-      // this.getCareerlevels();
-      this.getJobfunctions();
-    });
+      .then(() => {
+        // this.getJobTypes();
+        // this.getCareerlevels();
+        this.getJobfunctions();
+      });
   }
 
+
+  // get jobs
   public async getAllJobs() {
 
     let data = {
@@ -115,12 +122,14 @@ export class JobsComponent implements OnInit {
               this.activeJobId = this.job._id;
               this.getJobDescription(this.job.companyProfile?.companyId, this.job.slug,)
             }
-            this.jobTypes = response.jobTypes.sort((a:any,b:any)=>b.count - a.count);
-            console.log(   this.jobTypes )
-      
+            this.jobTypes = response.jobTypes.sort((a: any, b: any) => b.count - a.count)
 
-            this.careerLevels = response.careerLevels;
-            this.careerLevels.map(x => x.checked = false);
+            this.careerLevels = response.careerLevels.sort((a: any, b: any) => b.count - a.count)
+            this.jobTypes.filter((x:any)=>x.checked = false);
+            this.careerLevels.filter((x:any)=>x.checked = false);
+
+            console.log(this.jobTypes)
+            console.log(this.careerLevels)
 
 
             this.jobDates.map(x => {
@@ -133,10 +142,9 @@ export class JobsComponent implements OnInit {
       });
     }
 
-
-
-
   }
+
+  //get job desc
   public async getJobDescription(companyId: string, slug: string) {
     let param = {
       companyId: companyId
@@ -150,66 +158,42 @@ export class JobsComponent implements OnInit {
     })
   }
 
-  public async getJobTypes() {
-    const result$ = this.Service.getJobTypes('');
-    await lastValueFrom(result$).then((response: JobTypeDto[]) => {
-      this.jobTypes = response;
-      this.jobTypes.map((jobType: JobTypeDto) => {
-        jobType.checked = false;
-      })
-    })
-  }
-
-  public async getCareerlevels() {
-    const result$ = this.Service.getCareerLevels('');
-    await lastValueFrom(result$).then((response: careerLevelDto[]) => {
-      this.careerLevels = response;
-      this.careerLevels.map((careerLevel: careerLevelDto) => {
-        careerLevel.checked = false;
-      })
-    })
-  }
-
-
-  public async  getJobfunctions(){
+  //get jobFunction
+  public async getJobfunctions() {
     const result$ = this.Service.getJobFunctions('');
     await lastValueFrom(result$).then((response: jobFunctionDto[]) => {
       this.jobFunctions = response;
-     
+
     })
   }
 
-
-
   getJobTypesCheckeds(datas: any) {
     let data: any = [];
-    if(datas && datas.length>0){
+    if (datas && datas.length > 0) {
       datas?.filter((j: any) => {
         if (j.checked == true) {
           data.push(j.type)
         }
       })
     }
-    
     return data
   }
 
   getCareerLevelsCheckeds(datas: any) {
     let data: any = [];
-    if(datas && datas.length>0){
-
+    if (datas && datas.length > 0) {
       datas?.filter((j: any) => {
-        if (j.careerLevel == true) {
-          data.push(j.type)
+        if (j.checked == true && j.careerLevel && j.translation) {
+          data.push(j.careerLevel)
         }
       })
     }
+    console.log(data);
     return data
   }
 
-
   scrollingStop: boolean = false;
-  filtered:boolean = false;
+  filtered: boolean = false;
 
   filter() {
     this.filtered = true
@@ -218,51 +202,70 @@ export class JobsComponent implements OnInit {
     this.activePage = 0;
     this.scrollingStop = true;
     this.showButtonID = '';
-    this.job=[];
-    this.activeJobId=''; 
-    this.getAllJobs().then(()=>{
-      this.jobTypes.forEach((x:JobTypeDto)=> x.checked = true); 
+    this.job = [];
+    this.activeJobId = '';
+    window.scrollTo(0, 0)
+    this.getAllJobs().then(() => {
+      this.jobTypes.forEach((x: JobTypeDto) => x.checked = true);
+      this.careerLevels.forEach((x: careerLevelDto) => x.checked = true);
     })
   }
-  resetFilters(){
+
+  resetFilters() {
     this.filtered = false
-    this.activePage=0;
-    this.searchText='';
-    this.jobTypes=[];
-    this.careerLevels=[];
-    this.activeJobId='';
-    this.job=[];
-    this.location='';
-    this.jobFunction='';
-    this.activeJobDate=null;
+    this.activePage = 0;
+    this.searchText = '';
+    this.jobTypes = [];
+    this.careerLevels = [];
+    this.activeJobId = '';
+    this.job = [];
+    this.location = '';
+    this.jobFunction = '';
+    this.activeJobDate = null;
+    this.jobDates.filter(x => x.checked = false);
+    this.careerLevels.filter(x => x.checked = false);
+    this.submitted = true
+    this.scrollingStop = false;
     this.getAllJobs();
-   
+
   }
 
 
   showButtonID: string = '';
   count(data: any) {
     this.showButtonID = data._id;
+    this.showingJob=0;
     console.log(data)
     this.jobTypes.filter((jobType: JobTypeDto) => {
-      this.showingJob += jobType.count
+      if(jobType.checked == true){
+        this.showingJob += jobType.count
+      }
+    }
+    )
+    this.careerLevels.filter((careerLevel: careerLevelDto) => {
+      if(careerLevel.checked == true){
+        this.showingJob += careerLevel.count
+      }
+    }
+    )
+    this.jobDates.filter((jobDate: any) => {
+      if(jobDate.checked == true){
+        this.showingJob += jobDate.count
+      }
     }
     )
   }
 
-
   setJobDate(jobDate: any) {
     this.activeJobDate = jobDate.value;
-    this.filter();
   }
 
   onScroll(event: any) {
     if (event.target.offsetHeight + event.target.scrollTop >= (event.target.scrollHeight * 99 / 100)) {
-      if(!this.scrollingStop){
+      if (!this.scrollingStop) {
         this.getAllJobs()
       }
     }
   }
-
 
 }

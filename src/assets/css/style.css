@@ -102,6 +102,7 @@ body {
     -moz-font-feature-settings: 'kern';
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    overflow: hidden;
 } 
 a {
     color: var(--pxpMainColor);
@@ -1456,7 +1457,7 @@ a:hover {
     background-color: rgba(0,0,0,0.2);
 }
 .pxp-page-header-simple {
-    padding: 25px 0;
+    padding: 15px 0;
     margin-top: 80px;
 }
 .pxp-page-header-simple h1 {
@@ -1942,31 +1943,39 @@ a:hover {
     font-size: 13px;
     font-weight: 500;
     color: var(--pxpTextColor);
+    white-space: nowrap;
+    overflow: hidden;
+    position: relative;
+    max-width: 250px;
+    text-overflow: ellipsis;
 }
 .pxp-jobs-card-4.active .pxp-jobs-card-4-company {
     color: #fff;
 }
 .pxp-jobs-tab-content .tab-pane {
     border: 1px solid var(--pxpLightGrayColor);
+    height: calc(100vh - 200px );
+    overflow: hidden;
     border-radius: 30px;
     background-color: #fff;
 }
 .pxp-jobs-tab-pane-cover {
-    height: 260px;
+    height: 180px;
     border-top-left-radius: 30px;
     border-top-right-radius: 30px;
     margin: -1px -1px 0 -1px;
 }
 .pxp-jobs-tab-pane-logo {
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    height: 80px;
     border-radius: 20px;
+    
     background-position: center center;
     background-size: contain;
     background-repeat: no-repeat;
     background-color: #fff;
     border: 3px solid #fff;
-    margin-top: -50px;
+    margin-top: -40px;
     margin-left: 30px;
 }
 .pxp-jobs-tab-pane-content {
@@ -2969,6 +2978,10 @@ a:hover {
     background-color: var(--pxpMainColorLight);
     padding: 20px;
     border-radius: 30px;
+    overflow: hidden;
+    overflow-y: auto;
+    height: calc(100vh - 200px);
+
 }
 .pxp-list-side-filter-header {
     display: flex;

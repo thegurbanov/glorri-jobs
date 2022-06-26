@@ -4,6 +4,7 @@ export interface careerLevelDto {
   code: string,
   value: string,
   translation:string,
+  careerLevel:string;
   count:number,
   checked:boolean
   } 

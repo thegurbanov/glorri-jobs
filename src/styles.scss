@@ -1,12 +1,33 @@
 @import "~@ng-select/ng-select/themes/default.theme.css";
 @import "./assets/icons/css/_icon.css";
 
-.glorri-button{
-    background-color:#0969c3!important;
-    color: #fff!important;
+*::-webkit-scrollbar {
+    width: 5px;
+  }
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #DEDEDE;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background-color: #DEDEDE ;
+    border-radius: 6px;
+    border: 3px solid #DEDEDE;
+  }
+
+  
+.glorri-button {
+    background-color: #0969c3 !important;
+    color: #fff !important;
     box-shadow: 0 3px 3px #00000032;
 }
 
 .ng-select .ng-select-container {
-   border:none;
+    border: none;
+}
+
+.scroll {
+    overflow: hidden;
+    overflow-y: auto;
+
 }

@@ -1,5 +1,5 @@
 .pxp-jobs-list-single-column{
-    height: 100vh;
+    height: calc(100vh -  200px);
     min-height: 400px;
     overflow: hidden;
     overflow-y: auto;
@@ -8,7 +8,20 @@
 .filter-button{
     position: absolute;
     top: 0;
-    right: -50%;
+    right: -62%;
+    z-index: 1;
+    &::before{
+            position: absolute;
+            content: "";
+            width: 0;
+            height: 0;
+            display: inline-block;
+            border-top: 15px solid transparent;
+            border-bottom: 15px solid transparent;
+            border-right: 15px solid rgb(10 105 195);
+            left: -8px;
+            top: 3px;
+    }
 }
 .pxp-jobs-card-4-details {
     i{
@@ -41,4 +54,11 @@
         padding: 10px;
         background: aliceblue;
     }
+}
+.job-detail{
+    // height: 30vh;
+    height: 60vh;
+    min-height: 200px;
+    padding-bottom: 200px;
+    overflow-y: auto;
 }

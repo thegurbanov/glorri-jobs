@@ -8,6 +8,7 @@ import { PipesModule } from 'src/app/pipes/pipes.module';
 import { DayPipe } from 'src/app/pipes/day/day.pipe';
 import { FormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { NgxContentLoadingModule } from 'ngx-content-loading';
 
 
 @NgModule({
@@ -17,6 +18,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
   ],
   imports: [
     CommonModule,
+    NgxContentLoadingModule,
     FormsModule,
     NgSelectModule,
     PipesModule,
