@@ -6,9 +6,8 @@
 }
 
 .filter-button{
-    position: absolute;
-    top: 0;
-    right: -62%;
+    position: fixed;
+    left: 300px;
     z-index: 1;
     &::before{
             position: absolute;

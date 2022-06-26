@@ -233,6 +233,8 @@ export class JobsComponent implements OnInit {
 
   showButtonID: string = '';
   count(data: any) {
+
+
     this.showButtonID = data._id;
     this.showingJob=0;
     console.log(data)

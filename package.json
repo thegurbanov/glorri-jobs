@@ -25,6 +25,7 @@
     "@ng-select/ng-select": "^9.0.1",
     "express": "^4.18.1",
     "moment": "^2.29.3",
+    "ngx-content-loading": "0.2.1",
     "ngx-toastr": "14.0.0",
     "path": "^0.12.7",
     "rxjs": "~7.5.0",
